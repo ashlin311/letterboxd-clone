@@ -66,6 +66,7 @@ CREATE TABLE "Movie" (
     "language" VARCHAR(50),
     "Release_Date" DATE,
     "Synopsis" TEXT,
+    "now_showing" BOOLEAN,
     "runtime" INTEGER, -- Runtime in minutes
     "Poster" TEXT, -- URL to the poster image
     "Trailer" TEXT, -- URL to the trailer video
