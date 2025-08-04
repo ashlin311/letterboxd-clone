@@ -1,5 +1,14 @@
 {
+  "name": "letterboxd-clone-server",
+  "version": "1.0.0",
+  "description": "Backend server for Letterboxd clone",
+  "main": "index.js",
+  "scripts": {
+    "test": "node testdb.js",
+    "dev": "node testdb.js"
+  },
   "dependencies": {
+    "dotenv": "^17.2.1",
     "pg": "^8.16.3"
   }
 }
