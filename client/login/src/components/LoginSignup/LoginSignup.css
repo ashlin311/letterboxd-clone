@@ -57,21 +57,9 @@
     padding-left: 8px;
 }
 
-.forgot-password{
-    padding-left: 4px;
-    margin-top: 18px;
-    color: #191654;
-    font-size: 16px;
-}
-
-.forgot-password span{
-    color: #43c6ac;
-    cursor: pointer;
-    font-weight: 600;
-}
-
 .already-user{
     padding-left: 4px;
+    padding-top: 8px;
     margin-top: 8px;
     color: #191654;
     font-size: 16px;

@@ -6,19 +6,26 @@ import password_icon from '../assets/password.png';
 
 const LoginSignup = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isLogin, setIsLogin] = useState(false); 
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
+  
+  const toggleForm = () => {
+    setIsLogin((prev) => !prev);
+  }
 
   return (
     <div className="container">
-      <div className="text">Sign Up</div>
+      <div className="text">{isLogin ? 'Login' : 'Sign Up'}</div>
       <div className="inputs">
+      {!isLogin && (   
         <div className="input">
           <img src={user_icon} alt="name" />
           <input type="text" placeholder="Username" />
         </div>
+      )}
         <div className="input">
           <img src={email_icon} alt="mail" />
           <input type="email" placeholder="Email ID" />
@@ -47,9 +54,10 @@ const LoginSignup = () => {
           </span>
         </div>
       </div>
-      <div className="forgot-password">Forgot Password? <span>Click Here</span></div>
-      <div className="already-user">Already a User? <span>Click Here</span></div>
-      <div className="submit">Sign Up</div>
+      <div className="already-user">{isLogin ? 'New User? ' : 'Already a User? '}
+        <span onClick = {toggleForm} style={{cursor : 'pointer', color: '#007bff'}}
+         >Click Here</span></div>
+      <div className="submit">{isLogin ? 'Login' : 'Sign Up'}</div>
     </div>
   );
 };
