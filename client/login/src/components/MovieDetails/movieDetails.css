@@ -1,0 +1,28 @@
+.movie-details-container {
+  width: 100%;
+  min-height: 400px;    
+  background: #fff;
+  color: #000;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-bottom: 32px;  
+}
+
+.movie-header {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+}
+
+.movie-poster {
+  width: 300px;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.movie-info {
+  flex: 1;
+}

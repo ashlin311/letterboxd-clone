@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@supabase/supabase-js": "^2.53.1"
+    "@supabase/supabase-js": "^2.53.1",
+    "express": "^5.1.0"
   }
 }
