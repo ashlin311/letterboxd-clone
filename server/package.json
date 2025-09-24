@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node testdb.js",
-    "dev": "node testdb.js"
+    "dev": "node lib/index.js",
+    "start": "node lib/index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.53.1",
