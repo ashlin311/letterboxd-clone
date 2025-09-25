@@ -4,7 +4,7 @@ import user_icon from '../assets/person.png';
 import email_icon from '../assets/email.png';
 import password_icon from '../assets/password.png';
 
-const LoginSignup = ({ onSuccess }) => {
+const LoginSignup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLogin, setIsLogin] = useState(false); 
 
@@ -57,16 +57,7 @@ const LoginSignup = ({ onSuccess }) => {
       <div className="already-user">{isLogin ? 'New User? ' : 'Already a User? '}
         <span onClick = {toggleForm} style={{cursor : 'pointer', color: '#007bff'}}
          >Click Here</span></div>
-      <div
-        className="submit"
-        onClick={() => {
-          // placeholder for real auth logic; call onSuccess to navigate to Home
-          if (typeof onSuccess === 'function') onSuccess();
-        }}
-        style={{ cursor: 'pointer' }}
-      >
-        {isLogin ? 'Login' : 'Sign Up'}
-      </div>
+      <div className="submit">{isLogin ? 'Login' : 'Sign Up'}</div>
     </div>
   );
 };
