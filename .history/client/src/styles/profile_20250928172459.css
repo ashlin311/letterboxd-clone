@@ -1,0 +1,707 @@
+/* Profile Page Styles */
+.profile-page {
+  min-height: 100vh;
+  background: #0d1421;
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.profile-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Profile Layout */
+.profile-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Profile Sidebar */
+.profile-sidebar {
+  position: sticky;
+  top: 2rem;
+}
+
+.profile-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+/* Profile Picture */
+.profile-picture-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-picture-wrapper {
+  position: relative;
+}
+
+.profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Name Section */
+.profile-name-section {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.member-since {
+  color: #8892b0;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Bio Section */
+.profile-bio-section {
+  margin-bottom: 1.5rem;
+}
+
+.bio-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 0.75rem 0;
+}
+
+.bio-text {
+  color: #8892b0;
+  line-height: 1.6;
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Rating Card */
+.rating-card {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.stars-container {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-bottom: 0.75rem;
+}
+
+.star {
+  font-size: 1.125rem;
+}
+
+.star.filled {
+  color: #f39c12;
+}
+
+.star.half {
+  color: #f39c12;
+  opacity: 0.6;
+}
+
+.star.empty {
+  color: #34495e;
+}
+
+.rating-card .rating-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.25rem 0;
+}
+
+.rating-card .rating-text {
+  color: #8892b0;
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+/* Main Content */
+.profile-main-content {
+  flex: 1;
+}
+
+/* Loading and Error States */
+.loading, .error {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #8892b0;
+}
+
+.error {
+  color: #e74c3c;
+  background: #2c1810;
+  border: 1px solid #e74c3c;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.error h2 {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+}
+
+.error p {
+  margin-bottom: 0.5rem;
+}
+
+.error small {
+  opacity: 0.8;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 3rem;
+}
+
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item-count {
+  font-size: 0.9rem;
+  color: #8892b0;
+  font-weight: 400;
+}
+
+/* Watchlist Grid */
+.watchlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+  max-width: 100%;
+}
+
+.watchlist-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.watchlist-item:hover {
+  transform: translateY(-4px);
+}
+
+.movie-poster-wrapper {
+  position: relative;
+  aspect-ratio: 2/3;
+  background: #1e2936;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.movie-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.2s ease;
+}
+
+.movie-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  padding: 1rem 0.75rem 0.75rem;
+  transform: translateY(100%);
+  transition: transform 0.2s ease;
+}
+
+.watchlist-item:hover .movie-overlay {
+  transform: translateY(0);
+}
+
+.movie-title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.movie-year {
+  display: block;
+  font-size: 0.8rem;
+  color: #8892b0;
+}
+
+/* Reviews List */
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.review-item {
+  background: #1a252f;
+  border: 1px solid #2c3e50;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: border-color 0.2s ease;
+}
+
+.review-item:hover {
+  border-color: #3498db;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.review-movie-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.review-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-fraction {
+  font-size: 0.9rem;
+  color: #8892b0;
+  font-weight: 500;
+}
+
+.review-date {
+  font-size: 0.85rem;
+  color: #8892b0;
+}
+
+.review-text {
+  line-height: 1.6;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .profile-layout {
+    grid-template-columns: 300px 1fr;
+    gap: 1.5rem;
+  }
+  
+  .profile-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 1rem;
+  }
+  
+  .profile-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .profile-sidebar {
+    position: static;
+  }
+  
+  .profile-card {
+    padding: 1.5rem;
+  }
+  
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .profile-name {
+    font-size: 1.5rem;
+  }
+  
+  .watchlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+  
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .review-meta {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-picture {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .profile-name {
+    font-size: 1.25rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .watchlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}
+
+/* Profile Header */
+.profile-header {
+  margin-bottom: 3rem;
+}
+
+.profile-info {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.profile-avatar {
+  flex-shrink: 0;
+}
+
+.profile-avatar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #2c3e50;
+}
+
+.profile-details {
+  flex: 1;
+}
+
+.profile-name {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: #ffffff;
+}
+
+.member-since {
+  color: #8892b0;
+  font-size: 0.9rem;
+  margin: 0 0 1.5rem 0;
+}
+
+.about-section h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: #ffffff;
+}
+
+.about-section p {
+  color: #8892b0;
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+  max-width: 600px;
+}
+
+.rating-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  font-size: 1.2rem;
+}
+
+.star.filled {
+  color: #f39c12;
+}
+
+.star.half {
+  color: #f39c12;
+  opacity: 0.6;
+}
+
+.star.empty {
+  color: #34495e;
+}
+
+.rating-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rating-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.rating-text {
+  font-size: 0.85rem;
+  color: #8892b0;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 3rem;
+}
+
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.item-count {
+  font-size: 0.9rem;
+  color: #8892b0;
+  font-weight: 400;
+}
+
+/* Watchlist Grid */
+.watchlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.5rem;
+  max-width: 100%;
+}
+
+.watchlist-item {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.watchlist-item:hover {
+  transform: translateY(-4px);
+}
+
+.movie-poster-wrapper {
+  position: relative;
+  aspect-ratio: 2/3;
+  background: #1e2936;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.movie-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.2s ease;
+}
+
+.movie-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  padding: 1rem 0.75rem 0.75rem;
+  transform: translateY(100%);
+  transition: transform 0.2s ease;
+}
+
+.watchlist-item:hover .movie-overlay {
+  transform: translateY(0);
+}
+
+.movie-title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.movie-year {
+  display: block;
+  font-size: 0.8rem;
+  color: #8892b0;
+}
+
+/* Reviews List */
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.review-item {
+  background: #1a252f;
+  border: 1px solid #2c3e50;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: border-color 0.2s ease;
+}
+
+.review-item:hover {
+  border-color: #3498db;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.review-movie-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.review-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rating-fraction {
+  font-size: 0.9rem;
+  color: #8892b0;
+  font-weight: 500;
+}
+
+.review-date {
+  font-size: 0.85rem;
+  color: #8892b0;
+}
+
+.review-text {
+  line-height: 1.6;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 1rem;
+  }
+  
+  .profile-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .profile-name {
+    font-size: 2rem;
+  }
+  
+  .about-section p {
+    max-width: none;
+  }
+  
+  .rating-section {
+    justify-content: center;
+  }
+  
+  .watchlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+  }
+  
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .review-meta {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-avatar img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .profile-name {
+    font-size: 1.75rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .watchlist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+}

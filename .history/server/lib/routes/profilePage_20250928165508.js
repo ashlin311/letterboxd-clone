@@ -84,7 +84,7 @@ router.get("/reviews", async (req, res) => {
     try {
         const {data: reviews, error: reviewsError} = await supabase
             .from('Review')
-            .select('Review_id, added_at, Rating, review_text, Movie(name)')
+            .select('added_at, Rating, review_text, Movie(name)')
             .eq('user_id', defaultUserId)
             .order('added_at', { ascending: false })
             .limit(5);
@@ -93,8 +93,8 @@ router.get("/reviews", async (req, res) => {
             return res.status(400).json({error: reviewsError.message });
         }
 
-        const formattedReviews = reviews.map(review => ({
-            id: review.Review_id,
+        const formattedReviews = reviews.map((review, index) => ({
+            id: index + 1, // Use index as ID since review_id doesn't exist
             movie: review.Movie.name,
             rating: review.Rating,
             date: new Date(review.added_at).toLocaleDateString('en-US', { 

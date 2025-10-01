@@ -11,6 +11,8 @@ router.get("/", async (req, res) => {
     const defaultUserId = 1;
     
     try {
+        console.log('Fetching profile for user ID:', defaultUserId);
+        
         const {data: profile, error: profileError} = await supabase
             .from('User')
             .select('user_id,Name,bio,profile_pic')
@@ -18,8 +20,14 @@ router.get("/", async (req, res) => {
             .single();
 
         if (profileError) {
-            return res.status(400).json({ error: profileError.message });
+            console.error('Profile error:', profileError);
+            return res.status(404).json({ 
+                error: profileError.message,
+                message: "User not found. Make sure user with ID 1 exists in the database."
+            });
         }
+        
+        console.log('Profile found:', profile);
         
         const {data: reviews, error: reviewsError} = await supabase
             .from('Review')
@@ -27,23 +35,32 @@ router.get("/", async (req, res) => {
             .eq('user_id', defaultUserId);
 
         if(reviewsError) {
-            return res.status(400).json({error: reviewsError.message });
+            console.error('Reviews error:', reviewsError);
+            // Don't fail the whole request, just set empty reviews
         }
         
         // Calculate average rating
-        const ratings = reviews.map(r => r.Rating).filter(r => r !== null);
+        const ratings = reviews ? reviews.map(r => r.Rating).filter(r => r !== null && r !== undefined) : [];
         const averageRating = ratings.length > 0 ? (ratings.reduce((a, b) => a + b, 0) / ratings.length) : 0;
         
-        res.json({
+        const profileResponse = {
             name: profile.Name || "Anonymous User",
             memberSince: "January 2024", // You could add a created_at field to User table
             about: profile.bio || "No bio available.",
             averageRating: parseFloat(averageRating.toFixed(1)),
             totalReviews: ratings.length,
             avatar: profile.profile_pic || "/api/placeholder/120/120"
-        });
+        };
+        
+        console.log('Sending profile response:', profileResponse);
+        res.json(profileResponse);
+        
     } catch (error) {
-        res.status(500).json({ error: "Failed to fetch profile data" });
+        console.error('Unexpected error in profile route:', error);
+        res.status(500).json({ 
+            error: "Failed to fetch profile data",
+            details: error.message
+        });
     }
 });
 
@@ -84,7 +101,7 @@ router.get("/reviews", async (req, res) => {
     try {
         const {data: reviews, error: reviewsError} = await supabase
             .from('Review')
-            .select('Review_id, added_at, Rating, review_text, Movie(name)')
+            .select('review_id, added_at, Rating, review_text, Movie(name)')
             .eq('user_id', defaultUserId)
             .order('added_at', { ascending: false })
             .limit(5);
@@ -94,7 +111,7 @@ router.get("/reviews", async (req, res) => {
         }
 
         const formattedReviews = reviews.map(review => ({
-            id: review.Review_id,
+            id: review.review_id,
             movie: review.Movie.name,
             rating: review.Rating,
             date: new Date(review.added_at).toLocaleDateString('en-US', { 

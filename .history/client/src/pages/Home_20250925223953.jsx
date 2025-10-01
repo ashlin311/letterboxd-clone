@@ -4,11 +4,11 @@ import Searchbar from '../components/common/Searchbar';
 import MovieGrid from '../components/movie/MovieGrid';
 import '../styles/home.css';
 
-const Home = ({ onNavigate }) => {
+const Home = () => {
   const [query, setQuery] = useState('');
   return (
     <div className="home-root">
-      <Header onNavigate={onNavigate} />
+      <Header />
       <Searchbar query={query} onChange={setQuery} />
       <div className="glass-wrap">
         <main className="home-main glass-inner">

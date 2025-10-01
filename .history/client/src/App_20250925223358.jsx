@@ -1,0 +1,37 @@
+import React, { useState, useEffect } from 'react';
+import './styles/App.css';
+import Home from './pages/Home';
+import LoginSignup from './components/auth/LoginSignup';
+
+function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  // add/remove body class to prevent page background bleed-through when login is visible
+  useLoginBodyToggle(!loggedIn);
+
+  return (
+    <div>
+      {loggedIn ? (
+        <Home />
+      ) : (
+        <div className="login-root">
+          <LoginSignup onSuccess={() => setLoggedIn(true)} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ensure the body has a class while the login page is active so global background
+// image rules are overridden by a stronger selector when needed
+export function useLoginBodyToggle(isLoginVisible){
+  useEffect(() => {
+    if (isLoginVisible){
+      document.body.classList.add('login-page');
+    } else {
+      document.body.classList.remove('login-page');
+    }
+    return () => { document.body.classList.remove('login-page'); };
+  }, [isLoginVisible]);
+}
+
+export default App;
