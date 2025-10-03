@@ -25,6 +25,18 @@
     letter-spacing: 0.2px;
 }
 
+.error-message {
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid #ff6b6b;
+    color: #ff6b6b;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
 .inputs{
     margin-top: 22px;
     display: flex;

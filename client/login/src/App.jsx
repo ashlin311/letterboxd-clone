@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
+import MovieDetailsPage from './pages/MovieDetailsPage';
 import LoginSignup from './components/LoginSignup/LoginSignup';
 
 function App() {
@@ -11,7 +13,12 @@ function App() {
   return (
     <div>
       {loggedIn ? (
-        <Home />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/movie/:movieId" element={<MovieDetailsPage />} />
+          </Routes>
+        </Router>
       ) : (
         <div className="login-root">
           <LoginSignup onSuccess={() => setLoggedIn(true)} />

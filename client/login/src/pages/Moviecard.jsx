@@ -1,9 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Moviecard = ({ movie }) => {
+  const navigate = useNavigate();
   const src = movie?.poster || 'https://placehold.co/300x450?text=No+Image';
+  
+  const handleCardClick = () => {
+    if (movie?.id) {
+      navigate(`/movie/${movie.id}`);
+    }
+  };
+
   return (
-    <div className="movie-card">
+    <div className="movie-card" onClick={handleCardClick} style={{ cursor: 'pointer' }}>
       <div className="poster">
         <img className="poster-img" src={src} alt={movie?.title || 'poster'} />
       </div>
