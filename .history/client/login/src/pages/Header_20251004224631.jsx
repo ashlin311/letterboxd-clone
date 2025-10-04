@@ -10,15 +10,15 @@ const Header = () => {
   }, []);
   return (
     <header className="site-header">
-      <Link to="/" className="brand-wrap">
+      <div className="brand-wrap">
         <img src={logo} alt="Logo" className="brand-logo" />
         <div className="brand-text">Letterboxd Clone</div>
-      </Link>
+      </div>
 
       <div className="header-right">
-        <Link to="/profile" className="profile-btn" aria-label="Profile">
+        <button className="profile-btn" aria-label="Profile">
           <img src={profileImg} alt="Profile" className="profile-avatar" />
-        </Link>
+        </button>
       </div>
     </header>
   );

@@ -239,26 +239,6 @@ return (
           <p><strong>Language:</strong> {movie.language}</p>
           <p><strong>Release Date:</strong> {movie.Release_Date.split("T")[0]}</p>
           <p><strong>Synopsis:</strong> {movie.Synopsis}</p>
-          
-          <div className="watchlist-section">
-            {isInWatchlist ? (
-              <button 
-                className="watchlist-btn remove-watchlist" 
-                onClick={handleRemoveFromWatchlist}
-                disabled={watchlistLoading}
-              >
-                {watchlistLoading ? 'Removing...' : '✓ In Watchlist'}
-              </button>
-            ) : (
-              <button 
-                className="watchlist-btn add-watchlist" 
-                onClick={handleAddToWatchlist}
-                disabled={watchlistLoading}
-              >
-                {watchlistLoading ? 'Adding...' : '+ Add to Watchlist'}
-              </button>
-            )}
-          </div>
         </div>
       </div>
     </div>

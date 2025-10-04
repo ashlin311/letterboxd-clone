@@ -18,7 +18,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/movie/:movieId" element={<MovieDetailsPage />} />
-            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Router>
       ) : (
