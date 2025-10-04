@@ -1,11 +1,12 @@
-const express = require('express');
+import express from 'express';
+import { listMovies, getMovieById } from '../Controller/movieController.js';
+
 const router = express.Router();
-const movieController = require('../Controller/movieController');
 
 // List movies (optional query q, limit, offset)
-router.get('/', movieController.listMovies);
+router.get('/', listMovies);
 
 // Get single movie by id
-router.get('/:id', movieController.getMovieById);
+router.get('/:id', getMovieById);
 
-module.exports = router;
+export default router;

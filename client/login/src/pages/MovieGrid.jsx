@@ -43,7 +43,8 @@ const MovieGrid = ({ searchQuery = '' }) => {
           <Moviecard key={m.movie_id || m.id} movie={{
             title: m.name || m.title,
             poster: m.poster || m.Poster,
-            id: m.movie_id || m.id
+            id: m.movie_id || m.id,
+            year: m.year || (m.Release_Date ? new Date(m.Release_Date).getFullYear() : '')
           }} />
         ))}
       </div>

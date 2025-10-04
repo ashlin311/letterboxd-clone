@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Backend server for Letterboxd clone",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "node testdb.js",
     "dev": "node lib/index.js",
@@ -11,6 +12,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.53.1",
     "axios": "^1.11.0",
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",

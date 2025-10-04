@@ -1,24 +1,32 @@
-const db = require('../db');
+import db from '../db.js';
 
-exports.getMovieById = async(req, res) => {
-    const  movieId = req.params.id;
-    console.log(movieId);
-    try{
-    const result = await db.query('SELECT movie_id, name, language, "Release_Date", "Synopsis", now_showing, runtime, "Poster", "Trailer", "Rating", "Dir_id" FROM "Movie" WHERE movie_id = $1', [movieId]);
-        console.log(result.rows);
-        if (result.rows.length===0){
-            return res.status(404).json({error: "Movie not found"});
+export const getMovieById = async (req, res) => {
+    const movieId = req.params.id;
+    try {
+        // Fetch movie details
+        const movieResult = await db.query('SELECT * FROM "Movie" WHERE movie_id = $1', [movieId]);
+        if (movieResult.rows.length === 0) {
+            return res.status(404).json({ error: "Movie not found" });
         }
-        else res.json(result.rows[0]);
-    }
-    catch(err){
-        res.status(500).json({error: "Internal server error"}); 
+        const movie = movieResult.rows[0];
+
+        // Fetch reviews for the movie with explicit column selection
+        const reviewsResult = await db.query(
+            'SELECT "Review"."Review_id", "Review"."Rating", "Review".user_id, "Review".movie_id, "Review".review_text, "Review".added_at, "User"."Name" FROM "Review" JOIN "User" ON "Review".user_id = "User".user_id WHERE movie_id = $1', 
+            [movieId]
+        );
+        const reviews = reviewsResult.rows;
+
+        // Send both movie and reviews
+        res.json({ ...movie, reviews });
+    } catch (err) {
+        res.status(500).json({ error: "Internal server error" });
         console.log(err);
     }
-}
+};
 
 // List movies with optional search query q, limit and offset
-exports.listMovies = async (req, res) => {
+export const listMovies = async (req, res) => {
     const q = req.query.q || '';
     const limit = Math.min(parseInt(req.query.limit) || 30, 200);
     const offset = parseInt(req.query.offset) || 0;
@@ -54,4 +62,9 @@ exports.listMovies = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+
+
+
+
 
