@@ -27,15 +27,6 @@ function MovieDetails({ movieId }) {
           const existingReview = data.reviews.find(review => review.user_id === user.id);
           setUserReview(existingReview || null);
         }
-
-        // Check if movie is in user's watchlist
-        if (user.id) {
-          const watchlistRes = await fetch(`http://localhost:3000/watchlist/${user.id}/${movieId}`);
-          if (watchlistRes.ok) {
-            const watchlistData = await watchlistRes.json();
-            setIsInWatchlist(watchlistData.inWatchlist);
-          }
-        }
       } catch (error) {
         console.error('Fetch error:', error);
         setMovie(null);
@@ -43,68 +34,6 @@ function MovieDetails({ movieId }) {
     }
     fetchMovie();
   }, [movieId]);
-
-  const handleAddToWatchlist = async () => {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (!user.id) {
-      alert('Please log in to add movies to your watchlist');
-      return;
-    }
-
-    setWatchlistLoading(true);
-    try {
-      const response = await fetch('http://localhost:3000/watchlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user_id: user.id,
-          movie_id: movieId
-        }),
-      });
-
-      if (response.ok) {
-        setIsInWatchlist(true);
-        alert('Movie added to watchlist!');
-      } else {
-        const errorData = await response.json();
-        alert(errorData.error || 'Failed to add movie to watchlist');
-      }
-    } catch (error) {
-      console.error('Error adding to watchlist:', error);
-      alert('Failed to add movie to watchlist');
-    } finally {
-      setWatchlistLoading(false);
-    }
-  };
-
-  const handleRemoveFromWatchlist = async () => {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    if (!user.id) {
-      return;
-    }
-
-    setWatchlistLoading(true);
-    try {
-      const response = await fetch(`http://localhost:3000/watchlist/${user.id}/${movieId}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setIsInWatchlist(false);
-        alert('Movie removed from watchlist!');
-      } else {
-        const errorData = await response.json();
-        alert(errorData.error || 'Failed to remove movie from watchlist');
-      }
-    } catch (error) {
-      console.error('Error removing from watchlist:', error);
-      alert('Failed to remove movie from watchlist');
-    } finally {
-      setWatchlistLoading(false);
-    }
-  };
 
   const handleAddReview = () => {
     setShowAddReview(true);
@@ -239,26 +168,6 @@ return (
           <p><strong>Language:</strong> {movie.language}</p>
           <p><strong>Release Date:</strong> {movie.Release_Date.split("T")[0]}</p>
           <p><strong>Synopsis:</strong> {movie.Synopsis}</p>
-          
-          <div className="watchlist-section">
-            {isInWatchlist ? (
-              <button 
-                className="watchlist-btn remove-watchlist" 
-                onClick={handleRemoveFromWatchlist}
-                disabled={watchlistLoading}
-              >
-                {watchlistLoading ? 'Removing...' : '✓ In Watchlist'}
-              </button>
-            ) : (
-              <button 
-                className="watchlist-btn add-watchlist" 
-                onClick={handleAddToWatchlist}
-                disabled={watchlistLoading}
-              >
-                {watchlistLoading ? 'Adding...' : '+ Add to Watchlist'}
-              </button>
-            )}
-          </div>
         </div>
       </div>
     </div>

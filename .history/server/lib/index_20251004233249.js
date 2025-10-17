@@ -21,30 +21,9 @@ app.get("/", (req, res) => {
             "/movies": "Movie routes",
             "/auth": "Authentication routes",
             "/reviews": "Review routes",
-            "/watchlist": "Watchlist routes",
-            "/health": "Health check"
+            "/watchlist": "Watchlist routes"
         }
     });
-});
-
-// Health check endpoint to test database connection
-app.get("/health", async (req, res) => {
-    try {
-        // Test database connection
-        const result = await db.query('SELECT NOW()');
-        res.json({ 
-            status: 'healthy', 
-            database: 'connected',
-            timestamp: result.rows[0].now
-        });
-    } catch (error) {
-        console.error('Health check failed:', error);
-        res.status(503).json({ 
-            status: 'unhealthy', 
-            database: 'disconnected',
-            error: error.message
-        });
-    }
 });
 
 // Import and use your routes here
