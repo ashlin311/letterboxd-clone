@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './movieDetails.css';
 
 function MovieDetails({ movieId }) {
+  const navigate = useNavigate();
   const [movie, setMovie] = useState(null);
   const [showAddReview, setShowAddReview] = useState(false);
   const [showEditReview, setShowEditReview] = useState(false);
@@ -153,8 +155,8 @@ function MovieDetails({ movieId }) {
 
   const handleBookTickets = () => {
     if (movie && movie.now_showing) {
-      // TODO: Implement ticket booking functionality
-      alert('Ticket booking feature coming soon!');
+      // Navigate to show times page
+      navigate(`/movie/${movieId}/showtimes`);
     }
   };
 
