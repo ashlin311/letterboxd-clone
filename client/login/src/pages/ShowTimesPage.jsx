@@ -49,8 +49,8 @@ const ShowTimesPage = () => {
   };
 
   const handleShowTimeSelect = (showId, showTime, theatreName) => {
-    // TODO: Navigate to seat selection or booking page
-    alert(`Selected show at ${theatreName} on ${new Date(showTime).toLocaleString()}`);
+    // Navigate to seat selection page
+    navigate(`/seat-selection/${showId}`);
   };
 
   const formatTime = (timeString) => {

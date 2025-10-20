@@ -4,6 +4,7 @@ import movieDetails from "./routes/movieRoute.js";
 import authRoute from "./routes/authRoute.js";
 import reviewRoute from "./routes/reviewRoute.js";
 import watchlistRoute from "./routes/watchlistRoute.js";
+import bookingRoute from "./routes/bookingRoute.js";
 import cors from "cors";
 import db from "./db.js";
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
             "/auth": "Authentication routes",
             "/reviews": "Review routes",
             "/watchlist": "Watchlist routes",
+            "/bookings": "Booking routes",
             "/health": "Health check"
         }
     });
@@ -53,6 +55,7 @@ app.use("/movies", movieDetails);
 app.use("/auth", authRoute);
 app.use("/reviews", reviewRoute);
 app.use("/watchlist", watchlistRoute);
+app.use("/bookings", bookingRoute);
 
 const server = app.listen(3000, () => {
     console.log("Server is running on port 3000");
