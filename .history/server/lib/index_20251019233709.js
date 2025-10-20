@@ -1,16 +1,14 @@
+import 'dotenv/config';
 import express from "express";
 import profilePage from "./routes/profilePage.js";
 import movieDetails from "./routes/movieRoute.js";
-import authRoute from "./routes/authRoute.js";
-import reviewRoute from "./routes/reviewRoute.js";
-import watchlistRoute from "./routes/watchlistRoute.js";
-import bookingRoute from "./routes/bookingRoute.js";
 import cors from "cors";
 import db from "./db.js";
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:5173',}));
+    origin: ['http://localhost:5173', 'http://localhost:5174'],
+}));
       
 app.use(express.json());
 
@@ -23,7 +21,6 @@ app.get("/", (req, res) => {
             "/auth": "Authentication routes",
             "/reviews": "Review routes",
             "/watchlist": "Watchlist routes",
-            "/bookings": "Booking routes",
             "/health": "Health check"
         }
     });
@@ -52,10 +49,6 @@ app.get("/health", async (req, res) => {
 // Import and use your routes here
 app.use("/profile", profilePage);
 app.use("/movies", movieDetails);
-app.use("/auth", authRoute);
-app.use("/reviews", reviewRoute);
-app.use("/watchlist", watchlistRoute);
-app.use("/bookings", bookingRoute);
 
 const server = app.listen(3000, () => {
     console.log("Server is running on port 3000");

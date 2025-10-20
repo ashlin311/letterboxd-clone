@@ -1,3 +1,14 @@
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Get the directory name of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load .env file from the root directory (two levels up from server/lib)
+dotenv.config({ path: join(__dirname, '..', '..', '.env') });
+
 import express from "express";
 import profilePage from "./routes/profilePage.js";
 import movieDetails from "./routes/movieRoute.js";

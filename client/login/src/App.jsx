@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
 import MovieDetailsPage from './pages/MovieDetailsPage';
+import ShowTimesPage from './pages/ShowTimesPage';
+import SeatSelectionPage from './pages/SeatSelectionPage';
 import Profile from './pages/Profile';
 import LoginSignup from './components/LoginSignup/LoginSignup';
 
@@ -18,6 +20,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/movie/:movieId" element={<MovieDetailsPage />} />
+            <Route path="/movie/:movieId/showtimes" element={<ShowTimesPage />} />
+            <Route path="/seat-selection/:showId" element={<SeatSelectionPage />} />
             <Route path="/profile" element={<Profile />} />
           </Routes>
         </Router>
