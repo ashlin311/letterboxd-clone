@@ -117,6 +117,8 @@ CREATE TABLE "movie_cast" (
 
 -- --- End of Script ---
 
+-- Supabase Schema for reference
+
 -- WARNING: This schema is for context only and is not meant to be run.
 -- Table order and constraints may not be valid for execution.
 
@@ -125,14 +127,10 @@ CREATE TABLE public.Booked (
   user_id integer NOT NULL,
   movie_id integer NOT NULL,
   Seat_no integer NOT NULL,
-  Show_id integer,
-  booking_time timestamp without time zone DEFAULT now(),
-  status character varying DEFAULT 'confirmed'::character varying,
   CONSTRAINT Booked_pkey PRIMARY KEY (ID),
-  CONSTRAINT Booked_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.User(user_id),
   CONSTRAINT Booked_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public.Movie(movie_id),
   CONSTRAINT Booked_Seat_no_fkey FOREIGN KEY (Seat_no) REFERENCES public.Seat_no(ID),
-  CONSTRAINT Booked_Show_id_fkey FOREIGN KEY (Show_id) REFERENCES public.Shows(Show_id)
+  CONSTRAINT Booked_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.User(user_id)
 );
 CREATE TABLE public.Cast (
   cast_id integer NOT NULL DEFAULT nextval('"Cast_cast_id_seq"'::regclass),
@@ -178,21 +176,17 @@ CREATE TABLE public.Review (
 );
 CREATE TABLE public.Seat_no (
   ID integer NOT NULL DEFAULT nextval('"Seat_no_ID_seq"'::regclass),
-  seat_row character varying,
-  seat_number integer,
-  Theatre_id integer,
-  CONSTRAINT Seat_no_pkey PRIMARY KEY (ID),
-  CONSTRAINT Seat_no_Theatre_id_fkey FOREIGN KEY (Theatre_id) REFERENCES public.Theatre(Theatre_id)
+  isBooked boolean DEFAULT false,
+  CONSTRAINT Seat_no_pkey PRIMARY KEY (ID)
 );
-CREATE TABLE public.Shows (
+CREATE TABLE public.Showtime (
   Show_id integer NOT NULL DEFAULT nextval('"Showtime_Show_id_seq"'::regclass),
-  show_time time without time zone NOT NULL,
+  Time timestamp without time zone NOT NULL,
   Theatre_id integer NOT NULL,
   movie_id integer NOT NULL,
-  show_date date,
-  CONSTRAINT Shows_pkey PRIMARY KEY (Show_id),
-  CONSTRAINT Showtime_Theatre_id_fkey FOREIGN KEY (Theatre_id) REFERENCES public.Theatre(Theatre_id),
-  CONSTRAINT Showtime_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public.Movie(movie_id)
+  CONSTRAINT Showtime_pkey PRIMARY KEY (Show_id),
+  CONSTRAINT Showtime_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public.Movie(movie_id),
+  CONSTRAINT Showtime_Theatre_id_fkey FOREIGN KEY (Theatre_id) REFERENCES public.Theatre(Theatre_id)
 );
 CREATE TABLE public.Theatre (
   Theatre_id integer NOT NULL DEFAULT nextval('"Theatre_Theatre_id_seq"'::regclass),
@@ -209,6 +203,7 @@ CREATE TABLE public.User (
   profile_pic text,
   CONSTRAINT User_pkey PRIMARY KEY (user_id)
 );
+ -- Join Table for Many-to-Many relationship between User and Movie for Watchlist feature
 CREATE TABLE public.Watchlist (
   watchlist_id integer GENERATED ALWAYS AS IDENTITY NOT NULL UNIQUE,
   user_id integer NOT NULL,
@@ -218,19 +213,8 @@ CREATE TABLE public.Watchlist (
   CONSTRAINT Watchlist_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.User(user_id),
   CONSTRAINT Watchlist_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public.Movie(movie_id)
 );
-CREATE TABLE public.bookings (
-  id bigint GENERATED ALWAYS AS IDENTITY NOT NULL,
-  movie_id bigint,
-  theatre_id bigint,
-  show_id bigint,
-  user_name text NOT NULL,
-  seats integer NOT NULL,
-  booked_at timestamp without time zone DEFAULT now(),
-  CONSTRAINT bookings_pkey PRIMARY KEY (id),
-  CONSTRAINT bookings_movie_id_fkey FOREIGN KEY (movie_id) REFERENCES public.Movie(movie_id),
-  CONSTRAINT bookings_theatre_id_fkey FOREIGN KEY (theatre_id) REFERENCES public.Theatre(Theatre_id),
-  CONSTRAINT bookings_show_id_fkey FOREIGN KEY (show_id) REFERENCES public.Shows(Show_id)
-);
+
+
 CREATE TABLE public.movie_cast (
   movie_id integer NOT NULL,
   cast_id integer NOT NULL,

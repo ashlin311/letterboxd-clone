@@ -10,13 +10,7 @@ router.get('/shows/:showId/seats', async (req, res) => {
         
         // First, get the theatre for this show
         const showQuery = `
-            SELECT s."Theatre_id", 
-                   (s."show_date" + s."show_time") as "Time",
-                   s."show_date",
-                   s."show_time",
-                   s."movie_id", 
-                   m."name" as movie_name, 
-                   t."Name" as theatre_name
+            SELECT s."Theatre_id", s."show_time" as "Time", s."movie_id", m."name" as movie_name, t."Name" as theatre_name
             FROM "Shows" s
             JOIN "Theatre" t ON s."Theatre_id" = t."Theatre_id"
             JOIN "Movie" m ON s."movie_id" = m."movie_id"
@@ -37,11 +31,12 @@ router.get('/shows/:showId/seats', async (req, res) => {
         const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
         const seatsPerRow = 15;
         
-        // Get already booked seats for THIS SPECIFIC SHOW
+        // Get already booked seats for this show
         const bookedSeatsQuery = `
             SELECT b."Seat_no"
             FROM "Booked" b
-            WHERE b."Show_id" = $1
+            JOIN "Shows" s ON b."movie_id" = s."movie_id"
+            WHERE s."Show_id" = $1
         `;
         const bookedSeatsResult = await db.query(bookedSeatsQuery, [showId]);
         const bookedSeatIds = bookedSeatsResult.rows.map(row => row.Seat_no);
@@ -102,14 +97,9 @@ router.post('/shows/:showId/book', async (req, res) => {
             return res.status(400).json({ error: 'User ID and selected seats are required' });
         }
         
-        // Get show details - combine show_date and show_time into a timestamp
+        // Get show details
         const showQuery = `
-            SELECT s."movie_id", 
-                   (s."show_date" + s."show_time") as "Time",
-                   s."show_date",
-                   s."show_time",
-                   m."name" as movie_name, 
-                   t."Name" as theatre_name
+            SELECT s."movie_id", s."show_time" as "Time", m."name" as movie_name, t."Name" as theatre_name
             FROM "Shows" s
             JOIN "Movie" m ON s."movie_id" = m."movie_id"
             JOIN "Theatre" t ON s."Theatre_id" = t."Theatre_id"

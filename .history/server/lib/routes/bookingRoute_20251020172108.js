@@ -31,8 +31,8 @@ router.get('/shows/:showId/seats', async (req, res) => {
         
         const showInfo = showResult.rows[0];
         
-        // Create a simple seat layout (10 rows, 15 seats each) using existing Seat_no table
-        // For demonstration, we'll generate seats dynamically
+        // Create a simple seat layout (10 rows, 15 seats each)
+        // Seats are generated dynamically with IDs 1-150
         const seatsByRow = {};
         const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
         const seatsPerRow = 15;
@@ -141,17 +141,8 @@ router.post('/shows/:showId/book', async (req, res) => {
             });
         }
         
-        // Insert seat bookings into the existing Booked table
+        // Insert seat bookings into the Booked table
         for (const seatId of selectedSeats) {
-            // First, ensure the seat exists in Seat_no table (insert if it doesn't exist)
-            const seatExistsQuery = 'SELECT "ID" FROM "Seat_no" WHERE "ID" = $1';
-            const seatExists = await client.query(seatExistsQuery, [seatId]);
-            
-            if (seatExists.rows.length === 0) {
-                // Insert seat if it doesn't exist (without isBooked column since it doesn't exist)
-                await client.query('INSERT INTO "Seat_no" ("ID") VALUES ($1)', [seatId]);
-            }
-            
             // Insert booking record with Show_id to link to specific showtime
             await client.query(
                 'INSERT INTO "Booked" ("user_id", "movie_id", "Seat_no", "Show_id") VALUES ($1, $2, $3, $4)',

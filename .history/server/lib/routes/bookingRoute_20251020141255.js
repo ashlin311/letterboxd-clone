@@ -10,13 +10,7 @@ router.get('/shows/:showId/seats', async (req, res) => {
         
         // First, get the theatre for this show
         const showQuery = `
-            SELECT s."Theatre_id", 
-                   (s."show_date" + s."show_time") as "Time",
-                   s."show_date",
-                   s."show_time",
-                   s."movie_id", 
-                   m."name" as movie_name, 
-                   t."Name" as theatre_name
+            SELECT s."Theatre_id", s."show_time" as "Time", s."movie_id", m."name" as movie_name, t."Name" as theatre_name
             FROM "Shows" s
             JOIN "Theatre" t ON s."Theatre_id" = t."Theatre_id"
             JOIN "Movie" m ON s."movie_id" = m."movie_id"

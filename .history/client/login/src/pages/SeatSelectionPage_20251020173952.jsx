@@ -134,9 +134,16 @@ const SeatSelectionPage = () => {
   };
 
   const handleBackToShowtimes = () => {
+    console.log('Back to showtimes clicked');
+    console.log('showInfo:', showInfo);
+    console.log('movie_id:', showInfo?.movie_id);
+    
     if (showInfo?.movie_id) {
-      navigate(`/movie/${showInfo.movie_id}/showtimes`);
+      const url = `/movie/${showInfo.movie_id}/showtimes`;
+      console.log('Navigating to:', url);
+      navigate(url);
     } else {
+      console.log('No movie_id found, using navigate(-1)');
       // Fallback: go back in browser history
       navigate(-1);
     }

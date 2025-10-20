@@ -135,7 +135,7 @@ const SeatSelectionPage = () => {
 
   const handleBackToShowtimes = () => {
     if (showInfo?.movie_id) {
-      navigate(`/movie/${showInfo.movie_id}/showtimes`);
+      navigate(`/movie/${showInfo.movie_id}/showtimes`, { replace: false });
     } else {
       // Fallback: go back in browser history
       navigate(-1);
