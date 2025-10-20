@@ -22,14 +22,26 @@ function App() {
             <Route path="/movie/:movieId" element={<MovieDetailsPage />} />
             <Route path="/movie/:movieId/showtimes" element={<ShowTimesPage />} />
             <Route path="/seat-selection/:showId" element={<SeatSelectionPage />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/user/:userId" element={<Profile />} />
-          </Routes>
-        </Router>
-      ) : (
-        <div className="login-root">
+ot">
           <LoginSignup onSuccess={() => setLoggedIn(true)} />
         </div>
+      )}
+    </div>
+  );
+}
+
+// ensure the body has a class while the login page is active so global background
+// image rules are overridden by a stronger selector when needed
+export function useLoginBodyToggle(isLoginVisible){
+  useEffect(() => {
+    if (isLoginVisible){
+      document.body.classList.add('login-page');
+    } else {
+      document.body.classList.remove('login-page');
+    }
+    return () => { document.body.classList.remove('login-page'); };
+  }, [isLoginVisible]);
+    </div>
       )}
     </div>
   );

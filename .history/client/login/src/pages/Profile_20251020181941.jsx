@@ -1,32 +1,28 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
 import Header from './Header';
 import '../styles/profile.css';
 
 const Profile = () => {
-  const { userId: urlUserId } = useParams(); // Get userId from URL if viewing another user's profile
   const [profileData, setProfileData] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [bookingsLoading, setBookingsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [uploadingPicture, setUploadingPicture] = useState(false);
-
-  // Determine if viewing own profile or another user's profile
-  const loggedInUser = JSON.parse(localStorage.getItem('user') || '{}');
-  const isOwnProfile = !urlUserId || urlUserId === String(loggedInUser.id);
-  const profileUserId = urlUserId || loggedInUser.id;
 
   const fetchProfileData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
 
-      if (!profileUserId) {
+      // Get user from localStorage (same pattern as existing auth)
+      const userData = JSON.parse(localStorage.getItem('user') || '{}');
+      const userId = userData.id;
+
+      if (!userId) {
         throw new Error('User not found. Please log in again.');
       }
 
-      const response = await fetch(`http://localhost:3000/profile/${profileUserId}`);
+      const response = await fetch(`http://localhost:3000/profile/${userId}`);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch profile: ${response.status}`);
@@ -40,12 +36,9 @@ const Profile = () => {
     } finally {
       setLoading(false);
     }
-  }, [profileUserId]);
+  }, []);
 
   const fetchBookings = useCallback(async () => {
-    // Only fetch bookings for own profile
-    if (!isOwnProfile) return;
-    
     try {
       setBookingsLoading(true);
       const userData = JSON.parse(localStorage.getItem('user') || '{}');
@@ -63,7 +56,7 @@ const Profile = () => {
     } finally {
       setBookingsLoading(false);
     }
-  }, [isOwnProfile]);
+  }, []);
 
   const handleCancelBooking = async (bookingId) => {
     if (!window.confirm('Are you sure you want to cancel this booking?')) {
@@ -83,63 +76,6 @@ const Profile = () => {
     } catch (err) {
       console.error('Error cancelling booking:', err);
       alert('Failed to cancel booking. Please try again.');
-    }
-  };
-
-  const handleProfilePictureUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
-      return;
-    }
-
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Image size should be less than 5MB');
-      return;
-    }
-
-    setUploadingPicture(true);
-
-    try {
-      // Convert image to base64
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const base64Image = reader.result;
-
-        // Send to backend
-        const response = await fetch(`http://localhost:3000/profile/${profileUserId}/picture`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            profile_pic: base64Image,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to upload profile picture');
-        }
-
-        // Refresh profile data
-        await fetchProfileData();
-        alert('Profile picture updated successfully!');
-      };
-
-      reader.onerror = () => {
-        throw new Error('Failed to read image file');
-      };
-
-      reader.readAsDataURL(file);
-    } catch (err) {
-      console.error('Error uploading profile picture:', err);
-      alert('Failed to upload profile picture. Please try again.');
-    } finally {
-      setUploadingPicture(false);
     }
   };
 
@@ -242,35 +178,6 @@ const Profile = () => {
                       e.target.src = '/default-avatar.png';
                     }}
                   />
-                  {isOwnProfile && (
-                    <>
-                      <label htmlFor="profile-picture-upload" className="profile-picture-upload-btn">
-                        <svg 
-                          xmlns="http://www.w3.org/2000/svg" 
-                          width="20" 
-                          height="20" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        >
-                          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                          <circle cx="12" cy="13" r="4"></circle>
-                        </svg>
-                        {uploadingPicture ? 'Uploading...' : 'Change Photo'}
-                      </label>
-                      <input
-                        id="profile-picture-upload"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleProfilePictureUpload}
-                        disabled={uploadingPicture}
-                        style={{ display: 'none' }}
-                      />
-                    </>
-                  )}
                 </div>
               </div>
 
@@ -308,62 +215,6 @@ const Profile = () => {
 
           {/* Main Content */}
           <div className="profile-main-content">
-            {/* Bookings Section - Only show for own profile */}
-            {isOwnProfile && (
-            <div className="bookings-section">
-              <div className="section-header">
-                <h2>
-                  My Bookings
-                  <span className="item-count">({bookings.length})</span>
-                </h2>
-              </div>
-              
-              {bookingsLoading ? (
-                <p style={{ color: '#8892b0', textAlign: 'center', padding: '2rem' }}>
-                  Loading bookings...
-                </p>
-              ) : bookings.length > 0 ? (
-                <div className="bookings-grid">
-                  {bookings.map((booking) => (
-                    <div key={booking.booking_id} className="booking-card">
-                      <div className="booking-poster-wrapper">
-                        <img 
-                          src={booking.movie_poster || '/default-movie-poster.jpg'} 
-                          alt={booking.movie_name}
-                          className="booking-poster"
-                          onError={(e) => {
-                            e.target.src = '/default-movie-poster.jpg';
-                          }}
-                        />
-                      </div>
-                      <div className="booking-details">
-                        <h3 className="booking-movie-title">{booking.movie_name}</h3>
-                        <p className="booking-seats-info">
-                          <span className="booking-label">Seats:</span> 
-                          <span className="booking-value">{booking.seats.join(', ')}</span>
-                        </p>
-                        <p className="booking-total-seats">
-                          <span className="booking-label">Total Seats:</span> 
-                          <span className="booking-value">{booking.total_seats}</span>
-                        </p>
-                        <button 
-                          onClick={() => handleCancelBooking(booking.booking_id)}
-                          className="cancel-booking-btn"
-                        >
-                          Cancel Booking
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p style={{ color: '#8892b0', textAlign: 'center', padding: '2rem' }}>
-                  No bookings yet. Book your first show!
-                </p>
-              )}
-            </div>
-            )}
-
             {/* Watchlist Section */}
             <div className="section">
               <div className="section-header">

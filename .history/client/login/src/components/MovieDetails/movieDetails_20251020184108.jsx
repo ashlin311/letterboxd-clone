@@ -348,13 +348,7 @@ return (
           <div key={idx} className="review">
             <div className="review-header">
               <div className="reviewer-info">
-                <Link 
-                  to={`/user/${review.user_id}`} 
-                  className="reviewer-name-link"
-                  title={`View ${review.Name || "Anonymous"}'s profile`}
-                >
-                  <strong className="reviewer-name">{review.Name || "Anonymous"}</strong>
-                </Link>
+                <strong className="reviewer-name">{review.Name || "Anonymous"}</strong>
                 <div className="review-rating">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <span

@@ -86,63 +86,6 @@ const Profile = () => {
     }
   };
 
-  const handleProfilePictureUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
-      return;
-    }
-
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Image size should be less than 5MB');
-      return;
-    }
-
-    setUploadingPicture(true);
-
-    try {
-      // Convert image to base64
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const base64Image = reader.result;
-
-        // Send to backend
-        const response = await fetch(`http://localhost:3000/profile/${profileUserId}/picture`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            profile_pic: base64Image,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to upload profile picture');
-        }
-
-        // Refresh profile data
-        await fetchProfileData();
-        alert('Profile picture updated successfully!');
-      };
-
-      reader.onerror = () => {
-        throw new Error('Failed to read image file');
-      };
-
-      reader.readAsDataURL(file);
-    } catch (err) {
-      console.error('Error uploading profile picture:', err);
-      alert('Failed to upload profile picture. Please try again.');
-    } finally {
-      setUploadingPicture(false);
-    }
-  };
-
   useEffect(() => {
     fetchProfileData();
     fetchBookings();
@@ -242,35 +185,6 @@ const Profile = () => {
                       e.target.src = '/default-avatar.png';
                     }}
                   />
-                  {isOwnProfile && (
-                    <>
-                      <label htmlFor="profile-picture-upload" className="profile-picture-upload-btn">
-                        <svg 
-                          xmlns="http://www.w3.org/2000/svg" 
-                          width="20" 
-                          height="20" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        >
-                          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                          <circle cx="12" cy="13" r="4"></circle>
-                        </svg>
-                        {uploadingPicture ? 'Uploading...' : 'Change Photo'}
-                      </label>
-                      <input
-                        id="profile-picture-upload"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleProfilePictureUpload}
-                        disabled={uploadingPicture}
-                        style={{ display: 'none' }}
-                      />
-                    </>
-                  )}
                 </div>
               </div>
 

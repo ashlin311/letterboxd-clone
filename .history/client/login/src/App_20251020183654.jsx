@@ -23,7 +23,6 @@ function App() {
             <Route path="/movie/:movieId/showtimes" element={<ShowTimesPage />} />
             <Route path="/seat-selection/:showId" element={<SeatSelectionPage />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/user/:userId" element={<Profile />} />
           </Routes>
         </Router>
       ) : (
